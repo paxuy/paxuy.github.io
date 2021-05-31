@@ -1,7 +1,7 @@
 //---------Programm---------
 
 let jsonObj = loadJSON("../paxuytype/texts/texts.json");
-let speedtext = jsonObj[0];
+let speedtext = jsonObj[1];
 
 /*
 let correct = document.createElement('span');
@@ -36,11 +36,58 @@ function trigger() {
 }
 */
 
+let time = 0;
+let runTimer = false;
+
+function timer() {
+    let s, m;
+    time++;
+    s = time % 60;
+    m = (time-s)/60;
+    if (s<10) {
+        s = "0" + s;
+    }
+    if (m<10) {
+        m = "0" + m;
+    }
+    document.getElementById('timer').innerHTML = m + ":" + s;
+    if (runTimer) {
+        setTimeout(timer, 1000);
+    }
+    
+}
+
+
+
+
+
+
 //document.getElementById("inp").addEventListener("input", updateOutput);
 //document.getElementById("inp").addEventListener("input", checkInput);
 document.getElementById("inp").addEventListener("input", updateText);
+document.getElementById("speedtext").addEventListener("click", focusInput)
+document.getElementById("inp").addEventListener('paste', e => e.preventDefault());
+document.getElementById("inp").addEventListener('drop', e => e.preventDefault());
 //document.getElementById("inp").addEventListener("input", reset);
 
+
+document.getElementById("inp").addEventListener("input", startTimer);
+function startTimer() {
+    document.getElementById("inp").removeEventListener("input", startTimer);
+    runTimer = true;
+    setTimeout(timer, 1000);
+
+}
+
+function stopTimer() {
+    runTimer = false;
+}
+
+
+
+function focusInput() {
+    document.getElementById("inp").focus();
+}
 
 let words = speedtext.split(" ");
 let currentWord = 0;
@@ -70,6 +117,10 @@ function nextWord() {
     currentLetter += words[currentWord].length
 }
 
+
+document.getElementById("speedtext").childNodes[words.length-1].addEventListener("change", stopTimer);
+
+
 /*
 function cursor() {
     for (let i = text.childNodes[currentWord].childElementCount-1; i >= 0; i--) {
@@ -84,13 +135,14 @@ function cursor() {
 text.childNodes[0].childNodes[0].id = "current";
 
 function updateText() {
-    
+
     document.getElementById("current").id = "";
 
-    document.getElementById("debug").innerText = `-${spans[currentLetter].innerText}-`;
 
     let currentInput = getInputvalue();
-    if(currentInput === "  "){
+
+
+    if (currentInput === "  ") {
         let wordCorrect = true;
         for (let i = 0; i < text.childNodes[currentWord].childElementCount; i++) {
             if (text.childNodes[currentWord].childNodes[i].classList.contains("wrong")) {
@@ -106,7 +158,7 @@ function updateText() {
         document.getElementById("inp").value = " ";
     }
     //Richtig
-    else if (currentInput === " " + words[currentWord][currentLetter]){
+    else if (currentInput === " " + words[currentWord][currentLetter]) {
 
         text.childNodes[currentWord].childNodes[currentLetter].classList.add('correct');
         currentLetter++;
@@ -118,24 +170,64 @@ function updateText() {
         wrongExist = false;
 
     }*/
+
     //Löschen
-    else if(currentInput === ""){
-        if (currentLetter === 0) {
+    else if (currentInput === "") {
+
+        if (currentWord === 0 && currentLetter === 0) {
+            text.childNodes[0].childNodes[0].id = "current";
+        }
+        else if (currentLetter === 0) {
+            if (text.childNodes[currentWord - 1].childNodes[text.childNodes[currentWord - 1].childElementCount - 2].classList.contains("extraWrong")) {
+                currentWord--;
+                currentLetter = words[currentWord].length;
+                text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 2].outerHTML = "";
+                text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 1].id = "current";
+            }
+            else {
+                currentWord--;
+                currentLetter = words[currentWord].length;
+                if (text.childNodes[currentWord].childNodes[currentLetter].className === "wrong") {
+                    text.childNodes[currentWord].childNodes[currentLetter].innerText = words[currentWord][currentLetter];
+                }
+                text.childNodes[currentWord].childNodes[currentLetter].className = "";
+                text.childNodes[currentWord].childNodes[currentLetter].id = "current";
+            }
+        }
+        else if (text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 2].classList.contains("extraWrong")) {
+            text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 2].outerHTML = "";
+            text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 1].id = "current";
+        }
+        else {
+            currentLetter--;
+            if (text.childNodes[currentWord].childNodes[currentLetter].className === "wrong") {
+                text.childNodes[currentWord].childNodes[currentLetter].innerText = words[currentWord][currentLetter];
+            }
+            text.childNodes[currentWord].childNodes[currentLetter].className = "";
+            text.childNodes[currentWord].childNodes[currentLetter].id = "current";
+        }
+
+        /*
+        else{
+            if (currentLetter === 0) {
             currentWord--;
             currentLetter = words[currentWord].length-1;
+                
+            }
+            else{
+                currentLetter--;
+            }
+            if (text.childNodes[currentWord].childNodes[currentLetter].className === "wrong") {
+                text.childNodes[currentWord].childNodes[currentLetter].innerText = words[currentWord][currentLetter];
+            }
+            text.childNodes[currentWord].childNodes[currentLetter].className = "";
+            text.childNodes[currentWord].childNodes[currentLetter].id = "current";
         }
-        else{
-            currentLetter--;
-        }
-        if (text.childNodes[currentWord].childNodes[currentLetter].className === "wrong") {
-            text.childNodes[currentWord].childNodes[currentLetter].innerText = words[currentWord][currentLetter];
-        }
-        text.childNodes[currentWord].childNodes[currentLetter].className = "";
-        text.childNodes[currentWord].childNodes[currentLetter].id = "current";
+        */
         document.getElementById("inp").value = " ";
     }
     //Wrong
-    else{
+    else {
         if (currentLetter < words[currentWord].length) {
             text.childNodes[currentWord].childNodes[currentLetter].innerText = currentInput.charAt(1);
             text.childNodes[currentWord].childNodes[currentLetter].classList.add('wrong');
@@ -143,27 +235,27 @@ function updateText() {
             text.childNodes[currentWord].childNodes[currentLetter].id = "current";
         }
         else if (currentLetter === words[currentWord].length) {
-            if (text.childNodes[currentWord].childNodes[currentLetter].classList.contains("wrong")) {
-                let extraWrong = document.createElement("span");
-                extraWrong.innerText = currentInput.charAt(1);
-                extraWrong.className = "extraWrong";
-                extraWrong.id = "current";
-                text.childNodes[currentWord].append(extraWrong);
-            }else{
-                text.childNodes[currentWord].childNodes[currentLetter].innerText = currentInput.charAt(1);
-                text.childNodes[currentWord].childNodes[currentLetter].classList.add('wrong');
-                text.childNodes[currentWord].childNodes[currentLetter].id = "current";
+            let extraWrong = document.createElement("span");
+            extraWrong.innerText = currentInput.charAt(1);
+            extraWrong.className = "extraWrong";
+            text.childNodes[currentWord].insertBefore(extraWrong, text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 1]);
+            text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 1].id = "current";
 
-                /*
-                let extraWrong = document.createElement("span");
-                extraWrong.innerText = currentInput.charAt(1);
-                extraWrong.className = "extraWrong";
-                text.childNodes[currentWord].append(extraWrong);
-                */
-            }
+            /*
+                            text.childNodes[currentWord].childNodes[currentLetter].innerText = currentInput.charAt(1);
+                            text.childNodes[currentWord].childNodes[currentLetter].classList.add('wrong');
+                            text.childNodes[currentWord].childNodes[currentLetter].id = "current";
+            */
+            /*
+            let extraWrong = document.createElement("span");
+            extraWrong.innerText = currentInput.charAt(1);
+            extraWrong.className = "extraWrong";
+            text.childNodes[currentWord].append(extraWrong);
+            */
+
 
         }
-        
+
         document.getElementById("inp").value = " ";
 
 
@@ -187,42 +279,43 @@ function updateText() {
             document.getElementById("currentWrong").innerText = currentInput.slice(1);
         }
         */
-        
+
     }
 
+    document.getElementById("debug").innerText = `Current Word-Letter(${currentWord}-${currentLetter}): -${words[currentWord][currentLetter]}-
+    Current Input: -${currentInput}-`;
+
+    /*
+        if (getInputvalue() === letters[currentLetter]) {
+            
+            
     
-
-/*
-    if (getInputvalue() === letters[currentLetter]) {
-        
-        
-
-        correct.innerText += letters[currentLetter];
-        if (letters[currentLetter] !== " ") {
-            coming.innerText = coming.innerText.slice(1);
+            correct.innerText += letters[currentLetter];
+            if (letters[currentLetter] !== " ") {
+                coming.innerText = coming.innerText.slice(1);
+            }
+            else{
+                coming.innerText = coming.innerText;
+            }
+            currentLetter++;
+            document.getElementById("inp").value = "";
+    
         }
-        else{
-            coming.innerText = coming.innerText;
-        }
-        currentLetter++;
-        document.getElementById("inp").value = "";
-
-    }
-    document.getElementById("debug").innerText = `n=${currentLetter}  Letter: -${letters[currentLetter]}-`;
-    */
+        document.getElementById("debug").innerText = `n=${currentLetter}  Letter: -${letters[currentLetter]}-`;
+        */
 }
 
 
 //document.getElementById("inp").addEventListener("keydown", ifDelete);
-function ifDelete(event){
-   var KeyID = event.keyCode;
-   switch(KeyID){
-      case 8: case 46:
+function ifDelete(event) {
+    var KeyID = event.keyCode;
+    switch (KeyID) {
+        case 8: case 46:
 
-      break; 
-      default:
-      break;
-   }
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -241,7 +334,7 @@ function updateOutput() {
 }
 
 function checkInput() {
-    if(document.getElementById("inp").value === words[currentWord] + " "){
+    if (document.getElementById("inp").value === words[currentWord] + " ") {
         let elem = document.createElement('span');
         elem.id = "correct";
         elem.innerHTML = words[currentWord] + " ";
@@ -256,7 +349,7 @@ function getInputvalue() {
 }
 
 function reset() {
-    if (getInputvalue().charAt(getInputvalue().length-1) === " ") {
+    if (getInputvalue().charAt(getInputvalue().length - 1) === " ") {
         document.getElementById("inp").value = "";
     }
 }

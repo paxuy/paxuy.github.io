@@ -1,6 +1,5 @@
 * {
   font-family: arial;
-
 }
 
 body {
@@ -11,13 +10,13 @@ body {
 }
 
 h1 {
-font-size: 3vh;
-font-family: 'Times New Roman', Times, serif;
+  font-size: 3vh;
+  font-family: "Times New Roman", Times, serif;
 }
 
 #speedtext {
   /*background-color: blueviolet;*/
-  border: 3px solid black ;
+  border: 3px solid black;
   border-radius: 5px;
   padding: 3px;
 }
@@ -26,14 +25,18 @@ font-family: 'Times New Roman', Times, serif;
   color: green;
 }
 
-.wrong, .extraWrong {
+.wrong {
   color: red;
 }
 
-#currentWrong {
+.extraWrong {
   color: yellow;
 }
 
 #current {
   text-decoration: underline white;
+}
+
+#inp {
+  transform: scale(0);
 }
