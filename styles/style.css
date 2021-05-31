@@ -1,0 +1,39 @@
+* {
+  font-family: arial;
+
+}
+
+body {
+  margin: auto;
+  width: 50%;
+  background-color: rgba(10, 10, 10, 0.932);
+  color: white;
+}
+
+h1 {
+font-size: 3vh;
+font-family: 'Times New Roman', Times, serif;
+}
+
+#speedtext {
+  /*background-color: blueviolet;*/
+  border: 3px solid black ;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong, .extraWrong {
+  color: red;
+}
+
+#currentWrong {
+  color: yellow;
+}
+
+#current {
+  text-decoration: underline white;
+}

@@ -26,6 +26,9 @@ function sleep(milliseconds) {
   } while (currentDate - date < milliseconds);
 }
 
+function checkGuess() {
+  alert('I am a placeholder');
+}
 
 
 $(document).ready(function(){
