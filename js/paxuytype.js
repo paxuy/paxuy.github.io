@@ -1,7 +1,7 @@
 //---------Programm---------
 
 let jsonObj = loadJSON("../paxuytype/texts/texts.json");
-let speedtext = jsonObj[1];
+let speedtext = jsonObj[0];
 
 /*
 let correct = document.createElement('span');
@@ -118,7 +118,6 @@ function nextWord() {
 }
 
 
-document.getElementById("speedtext").childNodes[words.length-1].addEventListener("change", stopTimer);
 
 
 /*
@@ -150,7 +149,12 @@ function updateText() {
             }
         }
         if (wordCorrect) {
+            text.childNodes[currentWord].classList.remove("wrongWord");
             text.childNodes[currentWord].classList.add("correctWord");
+        }
+        else{
+            text.childNodes[currentWord].classList.remove("correctWord");
+            text.childNodes[currentWord].classList.add("wrongWord");
         }
         currentWord++;
         currentLetter = 0;
@@ -178,15 +182,33 @@ function updateText() {
             text.childNodes[0].childNodes[0].id = "current";
         }
         else if (currentLetter === 0) {
-            if (text.childNodes[currentWord - 1].childNodes[text.childNodes[currentWord - 1].childElementCount - 2].classList.contains("extraWrong")) {
-                currentWord--;
-                currentLetter = words[currentWord].length;
+            currentWord--;
+            currentLetter = words[currentWord].length;
+            if (text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 2].classList.contains("extraWrong")) {
+                
                 text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 2].outerHTML = "";
                 text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 1].id = "current";
             }
+            else if (!text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 2].hasAttribute("class") && text.childNodes[currentWord].childNodes[text.childNodes[currentWord].childElementCount - 2].className === "") {
+                let breakFor = false;
+                for (let y = currentWord; y >= 0; y--) {
+                    for (let i = text.childNodes[y].childElementCount-1; i >= 0; i--) {
+                        if(text.childNodes[y].childNodes[i].hasAttribute("class") && text.childNodes[y].childNodes[i].className !== ""){
+                            
+                            text.childNodes[y].childNodes[i+1].id = "current";
+                            currentLetter = i+1;
+                            currentWord = y;
+                            
+                            breakFor = true;
+                            break;
+                        }
+                    }
+                    if (breakFor) {
+                        break;
+                    }
+                }
+            }
             else {
-                currentWord--;
-                currentLetter = words[currentWord].length;
                 if (text.childNodes[currentWord].childNodes[currentLetter].className === "wrong") {
                     text.childNodes[currentWord].childNodes[currentLetter].innerText = words[currentWord][currentLetter];
                 }
@@ -282,6 +304,11 @@ function updateText() {
 
     }
 
+
+    if (currentWord === words.length-1 && currentLetter === words[words.length-1].length) {
+        finish();
+    }
+
     document.getElementById("debug").innerText = `Current Word-Letter(${currentWord}-${currentLetter}): -${words[currentWord][currentLetter]}-
     Current Input: -${currentInput}-`;
 
@@ -305,6 +332,18 @@ function updateText() {
         */
 }
 
+
+function finish() {
+    stopTimer();
+    document.getElementById("inp").disabled = true;
+    let correctChar;
+    let wrongChar;
+    let correctWords;
+    let wrongWords;
+    let wpm;
+    let accuracy;
+    document.getElementById("result").innerText = ``;
+}
 
 //document.getElementById("inp").addEventListener("keydown", ifDelete);
 function ifDelete(event) {
@@ -354,3 +393,21 @@ function reset() {
     }
 }
 
+
+
+setCaretPos(document.getElementById('speedtext'), 10); // pure JS
+ 
+// Definition
+function setCaretPos(domElem, pos) {
+  if(domElem.setSelectionRange) {
+    domElem.focus();
+    domElem.setSelectionRange(pos, pos);
+  }
+  else if (domElem.createTextRange) {
+    var range = domElem.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', pos);
+    range.moveStart('character', pos);
+    range.select();
+  }
+}

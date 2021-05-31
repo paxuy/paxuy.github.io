@@ -1,5 +1,5 @@
 * {
-  font-family: arial;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -15,14 +15,24 @@ h1 {
 }
 
 #speedtext {
+  font-size: 25px;
+  color: rgb(100, 100, 100);
   /*background-color: blueviolet;*/
-  border: 3px solid black;
-  border-radius: 5px;
-  padding: 3px;
+  border: 2px;
+  border-left: 0px;
+  border-right: 0px;
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+
+  padding: 3px 0px;
+  text-align: left;
+  line-height: 150%;
+  word-spacing: 2px;
+  letter-spacing: 2px;
 }
 
 .correct {
-  color: green;
+  color: rgb(255, 255, 255);
 }
 
 .wrong {
@@ -34,9 +44,11 @@ h1 {
 }
 
 #current {
-  text-decoration: underline white;
+  text-decoration: underline yellow;
 }
 
+/*
 #inp {
   transform: scale(0);
 }
+*/
