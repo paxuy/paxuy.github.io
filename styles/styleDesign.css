@@ -5,7 +5,7 @@
 
 body {
   margin: auto;
-  width: 50%;
+  width: 90%;
   background-color: rgba(10, 10, 10, 0.651);
   color: white;
 }
@@ -13,6 +13,7 @@ body {
 h1 {
   font-size: 5vh;
   font-family: "Times New Roman", Times, serif;
+  text-align: center;
 }
 
 img {
@@ -21,11 +22,21 @@ img {
   pointer-events: none;
 }
 
+.funf {
+  width: 80%;
+  margin: 0 auto;
+  font-family: 'Special Elite', cursive;
+  font-size: 3vh;
+
+}
+
 p, a {
   font-size: 3vh;
   font-family: "Times New Roman", Times, serif;
   color: inherit;
 }
+
+
 
 a {
   color: aqua;;
