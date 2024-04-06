@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="hwstyles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- <header>
+        <h1>惠文</h1>
+    </header> -->
+
+    <main>
+        <section>
+            <h2>Answer questions correctly to decrypt message</h2>
+
+            <form id="answerForm" data-current-question="1">
+                <div id="question1">
+                    <label for="answer1">Who recommended the restaurant for my birthday? (use the instagram
+                        username)</label>
+                        <br>
+                    <input type="text" id="answer1" name="answer1">
+                    <button type="submit">Check Answer</button>
+                </div>
+                <!-- <div id="question2">
+                    <label for="answer2">Where did we do something, with something that Oscar gave us? (use the hungarian
+                        name on google maps)</label>
+                    <input type="text" id="answer2" name="answer2">
+                </div>
+                <div id="question3">
+                    <label for="answer">Which was the first thermal bath we visited togehter? (use the hungarian name on
+                        google maps)</label>
+                    <input type="text" id="answer3" name="answer3">
+                </div>
+                <div id="question4">
+                    <label for="answer4">What is the name of the estate which we visited when i visited you in February?
+                        You told me about your first job interview, we visited a playground, you got a
+                        google-docs-letter from your husband there. (use the name of the estate which frames the estate
+                        on google maps when you click on it)</label>
+                    <input type="text" id="answer4" name="answer4">
+                </div>
+                <div id="question5">
+                    <label for="answer5">What is the name of the restaurant, which we visited after i met Oscar and Amin
+                        for the first time? (use the hungarian name on google maps)</label>
+                    <input type="text" id="answer5" name="answer5">
+                </div> -->
+
+                
+            </form>
+        </section>
+
+        <section>
+            <!-- <h3>Message:</h3>
+            <p id="message">
+                <span id="part1">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis eum corrupti dolores harum
+                reprehenderit nostrum a, iste ex possimus aperiam, tenetur expedita eos similique libero atque, officiis
+                dolorum itaque! Voluptatibus!</span>
+                <span id="part2"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis eum corrupti dolores harum
+                reprehenderit nostrum a, </span>
+                <span id="part3"> iste ex possimus aperiam, tenetur expedita eos similique libero atque, officiis
+                dolorum itaque! Voluptatibus! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis eum corrupti dolores harum
+                reprehenderit nostrum a, iste ex </span>
+                <span id="part4">possimus aperiam, tenetur expedita eos similique libero atque, officiis
+                dolorum itaque! Voluptatibus!</span>
+                <span id="part5">possimussdfsdf asdfperiamsdf, tsdfnetur expedita eos similique libero atque, officiis
+                    dolorum itaque! Voluptatibus!</span>
+            </p> -->
+
+            <!-- <h3>Encryted Message:</h3> -->
+            <p id="encryptedMessage" hidden>
+                <span id="encrypted1"></span>
+                <span id="encrypted2"></span>
+                <span id="encrypted3"></span>
+                <span id="encrypted4"></span>
+                <span id="encrypted5"></span>
+            </p>
+
+            <h2>If answer was correct, text should be readibly</h2>
+            <p id="decryptedMessage">
+                <span id="decrypted1"></span>
+                <span id="decrypted2"></span>
+                <span id="decrypted3"></span>
+                <span id="decrypted4"></span>
+                <span id="decrypted5"></span>
+            </p>
+        </section>
+
+        <!-- <section>
+            <h2>Send message:</h2>
+            <form id="sendMessage">
+                <label for="sendMessage">Type message</label>
+                <input type="text" id="sendMessage" name="sendMessage" required>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </section> -->
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script type="text/javascript" src="sha256.js"></script>
+    <script src="hwscript.js"></script>
+</body>
+
+</html>
